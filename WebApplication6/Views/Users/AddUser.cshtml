@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string emailx = "";
+    int UserId = 0;
+
+    if (ViewBag != null && ViewBag.User != null)
+    {
+        emailx = ViewBag.User["email"].ToString();
+        UserId = ViewBag.User["UserId"];
+    }
+}
+
+<h2>View</h2>
+
+@if (ViewBag.error != null)
+{
+    <div class="alert alert-primary" role="alert">
+        @ViewBag.message
+    </div>
+}
+
+@using (Html.BeginForm("AddUserHandle", "Users", FormMethod.Post))
+{
+    <form method="POST" action="AddUserHandle">
+        <input type="email" name="email" value="@emailx" placeholder="asdasd@asdasd.com" />
+        <input type="password" name="password" placeholder="Your Password" />
+        <input type="hidden" name="UserId" value="@UserId" />
+        <button type="submit" name="add">Add User</button>
+    </form>
+}

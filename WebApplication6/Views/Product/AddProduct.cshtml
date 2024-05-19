@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "AddProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string Name = "";
+    decimal Price = 0;
+    int Quantity = 0;
+    string OldImage = "";
+
+    if(ViewBag.product != null)
+    {
+        Name = ViewBag.product["Name"];
+        Price = ViewBag.product["Price"];
+        Quantity = ViewBag.product["Quantity"];
+        OldImage = ViewBag.product["Image"];
+    }
+}
+
+<h2>AddProduct</h2>
+
+@if(TempData["error"] != null)
+{
+    <span>Err: @TempData["message"]</span>
+}
+
+@using (Html.BeginForm("AddProductHandle", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <form method="POST">
+        <input type="text" name="Name" placeholder="Product Name" value="@Name"/>
+        <input type="number" step="any" min="1" name="Price" value="@Price" placeholder="Price"/>
+        <input type="number" min="1" name="Quantity" value="@Quantity" placeholder="Quantity"/>
+        <input type="file" name="ImageFile" />
+
+        @if(OldImage.Length > 0) {
+            <input type="hidden" value="@OldImage" name="Image" />
+        }
+
+        @if(ViewBag.product != null && ViewBag.product["ProductId"] != null) {
+            <input type="hidden" name="ProductId" value="@ViewBag.product["ProductId"]" />
+        }
+
+            <button type="submit">@((ViewBag.product != null) ? "Update" : "Add")</button>
+    </form>
+}

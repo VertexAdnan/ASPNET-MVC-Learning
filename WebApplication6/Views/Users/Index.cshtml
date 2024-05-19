@@ -1,0 +1,57 @@
+﻿
+@model WebApplication6.Models.ViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Login</h2>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success">
+        <p>@TempData["message"]</p>
+    </div>
+}
+
+@if (ViewBag.UserId == null)
+{
+    using (Html.BeginForm("HandleAuth", "Users", FormMethod.Post))
+    {
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" />
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" />
+        </div>
+        <button type="submit">Login</button>
+    }
+}
+
+@if (ViewBag.UserId != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>UserId</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>#</th>
+                <th>#</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Users) {
+            <tr>
+                <td>@row.UserId</td>
+                <td>@row.Email</td>
+                <td>@row.Password</td>
+                <td><a href="@Url.Action("AddUser", "Users", new { id = row.UserId })">Edit</a></td>
+                <td><a href="@Url.Action("RemoveUser", "Users", new { id = row.UserId })">Delete</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}

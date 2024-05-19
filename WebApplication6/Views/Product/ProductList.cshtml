@@ -1,0 +1,42 @@
+﻿
+@model WebApplication6.Models.ViewModel
+
+@{
+    ViewBag.Title = "ProductList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ProductList</h2>
+
+@if(TempData["message"] != null)
+{
+    <span>@TempData["message"]</span>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ProductId</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Product Quantity</th>
+            <th scope="col">Product Price</th>
+            <th scope="col">Product Image</th>
+            <th scope="col">#</th>
+            <th scope="col">#</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+        <tr>
+            <th scope="row">@product.ProductId</th>
+            <td>@product.Name</td>
+            <td>@product.Quantity</td>
+            <td>@product.Price</td>
+            <td><image width="50" height="50" src="@product.Image" /></td>
+            <td><a href="@Url.Action("AddProduct", "Product", new { id = product.ProductId })">Edit</a></td>
+            <td><a href="@Url.Action("RemoveProduct", "Product", new { id = product.ProductId })">Remove</a></td>
+        </tr>
+        }
+    </tbody>
+</table>
